@@ -18,7 +18,6 @@ const config: Options = {
     path: join(__dirname, 'migrations'),
   },
   metadataProvider: TsMorphMetadataProvider,
-  driverOptions: { connection: { ssl: { rejectUnauthorized: false } } },
   cache: { enabled: false },
 };
 
