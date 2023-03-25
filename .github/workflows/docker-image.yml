@@ -23,7 +23,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      # - name: Build image
-      #   run: |
-      #     docker build . --tag ghcr.io/dcube-burnout/burnout-nestjs
-      #     docker push ghcr.io/dcube-burnout/burnout-nestjs:latest
+      - name: Build image
+        run: |
+          docker build . --tag ghcr.io/ningyuuu/feedback-nestjs
+          docker push ghcr.io/ningyuuu/feedback-nestjs:latest

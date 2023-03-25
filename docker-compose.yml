@@ -19,7 +19,7 @@ services:
       - ./certbot/conf/:/etc/letsencrypt/:rw
 
   backend:
-    image: ghcr.io/dcube-burnout/burnout-nestjs:latest
+    image: ghcr.io/ningyuuu/feedback-nestjs:latest
     restart: always
     build:
       context: .
