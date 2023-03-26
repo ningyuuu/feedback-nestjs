@@ -10,6 +10,6 @@ export class CreateUserDto {
   @ApiProperty()
   name: string;
 
-  @ApiProperty()
-  role: string;
+  @ApiProperty({ required: false })
+  admin?: boolean;
 }

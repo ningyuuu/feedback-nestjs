@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class LocalAuthDto {
   @ApiProperty()
-  username: string;
+  login: string;
 
   @ApiProperty()
   password: string;

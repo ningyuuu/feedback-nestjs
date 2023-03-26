@@ -10,14 +10,20 @@ export class UsersService {
   async create(createEntryDto: EntityData<User>) {
     const user = this.userRepository.create(createEntryDto);
     await this.userRepository.flush();
-    return user;
+    return this.extractPassword(user);
   }
 
-  findAll() {
-    return this.userRepository.findAll();
+  async findAll() {
+    const users = await this.userRepository.findAll();
+    return users.map(this.extractPassword);
   }
 
   findOne(login: string) {
     return this.userRepository.findOne({ login });
+  }
+
+  extractPassword(user: User) {
+    const { password, ...result } = user;
+    return result;
   }
 }
