@@ -1,7 +1,7 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { ScriptGradesService } from './script.grades.service';
-import { CreateScriptGradeDto } from './dto/create-script.grade.dto';
-import { UpdateScriptGradeDto } from './dto/update-script.grade.dto';
+import { Controller, Get, Post, Body, Patch, Param } from '@nestjs/common';
+import { ScriptGradesService } from './script-grades.service';
+import { CreateScriptGradeDto } from './dto/create-script-grade.dto';
+import { UpdateScriptGradeDto } from './dto/update-script-grade.dto';
 
 @Controller('script.grades')
 export class ScriptGradesController {
@@ -25,10 +25,5 @@ export class ScriptGradesController {
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateScriptGradeDto: UpdateScriptGradeDto) {
     return this.scriptGradesService.update(+id, updateScriptGradeDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.scriptGradesService.remove(+id);
   }
 }

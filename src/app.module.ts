@@ -11,7 +11,7 @@ import { AssignmentsModule } from './assignments/assignments.module';
 import { GradingsModule } from './gradings/gradings.module';
 import { StudentsModule } from './students/students.module';
 import { ScriptsModule } from './scripts/scripts.module';
-import { ScriptGradesModule } from './script.grades/script.grades.module';
+import { ScriptGradesModule } from './script-grades/script-grades.module';
 import { SnippetsModule } from './snippets/snippets.module';
 @Module({
   imports: [

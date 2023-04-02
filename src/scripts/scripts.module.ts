@@ -10,5 +10,6 @@ import { UsersModule } from 'src/users/users.module';
   imports: [MikroOrmModule.forFeature([Script]), AssignmentsModule, UsersModule],
   controllers: [ScriptsController],
   providers: [ScriptsService],
+  exports: [ScriptsService],
 })
 export class ScriptsModule {}

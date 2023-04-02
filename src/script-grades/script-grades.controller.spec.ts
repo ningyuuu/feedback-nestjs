@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { ScriptGradesController } from './script.grades.controller';
-import { ScriptGradesService } from './script.grades.service';
+import { ScriptGradesController } from './script-grades.controller';
+import { ScriptGradesService } from './script-grades.service';
 
 describe('ScriptGradesController', () => {
   let controller: ScriptGradesController;

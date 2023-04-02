@@ -9,5 +9,6 @@ import { AssignmentsModule } from 'src/assignments/assignments.module';
   imports: [MikroOrmModule.forFeature([Grading]), AssignmentsModule],
   controllers: [GradingsController],
   providers: [GradingsService],
+  exports: [GradingsService],
 })
 export class GradingsModule {}
