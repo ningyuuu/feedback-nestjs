@@ -22,6 +22,10 @@ export class UsersService {
     return this.userRepository.findOne({ login });
   }
 
+  findById(id: number) {
+    return this.userRepository.findOne({ id });
+  }
+
   extractPassword(user: User) {
     const { password, ...result } = user;
     return result;

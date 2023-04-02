@@ -13,6 +13,6 @@ export class Script {
   @Property()
   file!: string;
 
-  @ManyToOne()
-  assignee: User;
+  @ManyToOne({ nullable: true, entity: () => User })
+  assignee?: User;
 }

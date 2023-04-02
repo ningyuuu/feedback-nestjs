@@ -1,7 +1,7 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param } from '@nestjs/common';
 import { ScriptsService } from './scripts.service';
 import { CreateScriptDto } from './dto/create-script.dto';
-import { UpdateScriptDto } from './dto/update-script.dto';
+import { AssignScriptDto } from './dto/assign-script.dto';
 
 @Controller('scripts')
 export class ScriptsController {
@@ -22,13 +22,8 @@ export class ScriptsController {
     return this.scriptsService.findOne(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateScriptDto: UpdateScriptDto) {
-    return this.scriptsService.update(+id, updateScriptDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.scriptsService.remove(+id);
+  @Patch(':id/assign')
+  assign(@Param('id') id: string, @Body() assignScriptDto: AssignScriptDto) {
+    return this.scriptsService.assign(+id, assignScriptDto);
   }
 }
