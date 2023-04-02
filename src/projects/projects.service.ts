@@ -1,26 +1,23 @@
+import { InjectRepository } from '@mikro-orm/nestjs';
+import { EntityRepository } from '@mikro-orm/postgresql';
 import { Injectable } from '@nestjs/common';
 import { CreateProjectDto } from './dto/create-project.dto';
-import { UpdateProjectDto } from './dto/update-project.dto';
+import { Project } from './entities/project.entity';
 
 @Injectable()
 export class ProjectsService {
-  create(createProjectDto: CreateProjectDto) {
-    return 'This action adds a new project';
+  constructor(@InjectRepository(Project) private readonly projectRepo: EntityRepository<Project>) {}
+  async create(createProjectDto: CreateProjectDto) {
+    const project = this.projectRepo.create(createProjectDto);
+    await this.projectRepo.flush();
+    return project;
   }
 
   findAll() {
-    return `This action returns all projects`;
+    return this.projectRepo.findAll();
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} project`;
-  }
-
-  update(id: number, updateProjectDto: UpdateProjectDto) {
-    return `This action updates a #${id} project`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} project`;
+    return this.projectRepo.findOne(id);
   }
 }
