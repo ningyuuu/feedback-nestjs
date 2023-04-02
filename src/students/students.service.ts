@@ -1,26 +1,33 @@
+import { InjectRepository } from '@mikro-orm/nestjs';
+import { EntityRepository } from '@mikro-orm/postgresql';
 import { Injectable } from '@nestjs/common';
+import { ProjectsService } from 'src/projects/projects.service';
 import { CreateStudentDto } from './dto/create-student.dto';
-import { UpdateStudentDto } from './dto/update-student.dto';
+import { Student } from './entities/student.entity';
 
 @Injectable()
 export class StudentsService {
-  create(createStudentDto: CreateStudentDto) {
-    return 'This action adds a new student';
+  constructor(
+    @InjectRepository(Student) private readonly studentRepo: EntityRepository<Student>,
+    private readonly projectsService: ProjectsService,
+  ) {}
+  async create(createStudentDto: CreateStudentDto) {
+    const project = this.projectsService.findOne(createStudentDto.project);
+
+    if (!project) {
+      throw new Error('Project not found');
+    }
+
+    const student = this.studentRepo.create(createStudentDto);
+    await this.studentRepo.persistAndFlush(student);
+    return student;
   }
 
   findAll() {
-    return `This action returns all students`;
+    this.studentRepo.findAll();
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} student`;
-  }
-
-  update(id: number, updateStudentDto: UpdateStudentDto) {
-    return `This action updates a #${id} student`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} student`;
+    this.studentRepo.findOne({ id });
   }
 }
