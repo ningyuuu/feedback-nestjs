@@ -18,6 +18,6 @@ export class ProjectsService {
   }
 
   findOne(id: number) {
-    return this.projectRepo.findOne(id);
+    return this.projectRepo.findOne({ id });
   }
 }

@@ -8,5 +8,6 @@ import { Project } from './entities/project.entity';
   imports: [MikroOrmModule.forFeature([Project])],
   controllers: [ProjectsController],
   providers: [ProjectsService],
+  exports: [ProjectsService],
 })
 export class ProjectsModule {}
