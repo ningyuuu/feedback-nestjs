@@ -9,5 +9,6 @@ import { ProjectsModule } from 'src/projects/projects.module';
   imports: [MikroOrmModule.forFeature([Assignment]), ProjectsModule],
   controllers: [AssignmentsController],
   providers: [AssignmentsService],
+  exports: [AssignmentsService],
 })
 export class AssignmentsModule {}

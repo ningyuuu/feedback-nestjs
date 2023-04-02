@@ -1,26 +1,32 @@
+import { EntityRepository } from '@mikro-orm/core';
+import { InjectRepository } from '@mikro-orm/nestjs';
 import { Injectable } from '@nestjs/common';
+import { AssignmentsService } from 'src/assignments/assignments.service';
 import { CreateGradingDto } from './dto/create-grading.dto';
-import { UpdateGradingDto } from './dto/update-grading.dto';
+import { Grading } from './entities/grading.entity';
 
 @Injectable()
 export class GradingsService {
-  create(createGradingDto: CreateGradingDto) {
-    return 'This action adds a new grading';
+  constructor(
+    @InjectRepository(Grading) private readonly gradingRepo: EntityRepository<Grading>,
+    private readonly assignmentsService: AssignmentsService,
+  ) {}
+  async create(createGradingDto: CreateGradingDto) {
+    const assignment = this.assignmentsService.findOne(createGradingDto.assignment);
+    if (!assignment) {
+      throw new Error('Assignment not found');
+    }
+
+    const grading = this.gradingRepo.create(createGradingDto);
+    await this.gradingRepo.persistAndFlush(grading);
+    return grading;
   }
 
   findAll() {
-    return `This action returns all gradings`;
+    return this.gradingRepo.findAll();
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} grading`;
-  }
-
-  update(id: number, updateGradingDto: UpdateGradingDto) {
-    return `This action updates a #${id} grading`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} grading`;
+    return this.gradingRepo.findOne({ id });
   }
 }
