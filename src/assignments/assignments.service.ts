@@ -1,26 +1,24 @@
+import { InjectRepository } from '@mikro-orm/nestjs';
+import { EntityRepository } from '@mikro-orm/postgresql';
 import { Injectable } from '@nestjs/common';
 import { CreateAssignmentDto } from './dto/create-assignment.dto';
-import { UpdateAssignmentDto } from './dto/update-assignment.dto';
+import { Assignment } from './entities/assignment.entity';
 
 @Injectable()
 export class AssignmentsService {
+  constructor(
+    @InjectRepository(Assignment) private readonly assignmentRepo: EntityRepository<Assignment>,
+  ) {}
   create(createAssignmentDto: CreateAssignmentDto) {
-    return 'This action adds a new assignment';
+    const assignment = this.assignmentRepo.create(createAssignmentDto);
+    return this.assignmentRepo.persistAndFlush(assignment);
   }
 
   findAll() {
-    return `This action returns all assignments`;
+    return this.assignmentRepo.findAll();
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} assignment`;
-  }
-
-  update(id: number, updateAssignmentDto: UpdateAssignmentDto) {
-    return `This action updates a #${id} assignment`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} assignment`;
+    return this.assignmentRepo.findOne(id);
   }
 }
