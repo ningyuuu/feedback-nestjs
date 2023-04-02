@@ -26,11 +26,11 @@ export class ScriptsService {
   }
 
   findAll() {
-    return `This action returns all scripts`;
+    return this.scriptRepo.findAll();
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} script`;
+    return this.scriptRepo.findOne({ id });
   }
 
   async assign(id: number, assignScriptDto: AssignScriptDto) {

@@ -5,7 +5,7 @@ import { GradingsService } from 'src/gradings/gradings.service';
 import { ScriptsService } from 'src/scripts/scripts.service';
 import { CreateScriptGradeDto } from './dto/create-script-grade.dto';
 import { UpdateScriptGradeDto } from './dto/update-script-grade.dto';
-import { ScriptGrade } from './entities/script.grade.entity';
+import { ScriptGrade } from './entities/script-grade.entity';
 
 @Injectable()
 export class ScriptGradesService {
@@ -15,23 +15,46 @@ export class ScriptGradesService {
     private readonly scriptsService: ScriptsService,
     private readonly gradingsService: GradingsService,
   ) {}
-  create(createScriptGradeDto: CreateScriptGradeDto) {
-    return 'This action adds a new scriptGrade';
+  async create(createScriptGradeDto: CreateScriptGradeDto) {
+    const script = await this.scriptsService.findOne(createScriptGradeDto.script);
+    if (!script) {
+      throw new Error('Script not found');
+    }
+
+    const grading = await this.gradingsService.findOne(createScriptGradeDto.grading);
+    if (!grading) {
+      throw new Error('Grading not found');
+    }
+
+    const scriptGrade = this.scriptGradeRepository.create(createScriptGradeDto);
+    await this.scriptGradeRepository.flush();
+
+    return scriptGrade;
   }
 
   findAll() {
-    return `This action returns all scriptGrades`;
+    return this.scriptGradeRepository.findAll();
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} scriptGrade`;
+    return this.scriptGradeRepository.findOne({ id });
   }
 
-  update(id: number, updateScriptGradeDto: UpdateScriptGradeDto) {
-    return `This action updates a #${id} scriptGrade`;
-  }
+  async update(id: number, updateScriptGradeDto: UpdateScriptGradeDto) {
+    const scriptGrade = await this.scriptGradeRepository.findOne({ id });
+    if (!scriptGrade) {
+      throw new Error('ScriptGrade not found');
+    }
 
-  remove(id: number) {
-    return `This action removes a #${id} scriptGrade`;
+    if (updateScriptGradeDto.grade) {
+      scriptGrade.grade = updateScriptGradeDto.grade;
+    }
+
+    if (updateScriptGradeDto.comments) {
+      scriptGrade.comments = updateScriptGradeDto.comments;
+    }
+
+    await this.scriptGradeRepository.flush();
+    return scriptGrade;
   }
 }

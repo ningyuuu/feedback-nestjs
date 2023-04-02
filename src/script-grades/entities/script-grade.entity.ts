@@ -1,6 +1,6 @@
 import { Entity, ManyToOne, PrimaryKey, Property, Unique } from '@mikro-orm/core';
 import { Grading } from 'src/gradings/entities/grading.entity';
-import { Script } from 'vm';
+import { Script } from 'src/scripts/entities/script.entity';
 
 @Entity()
 @Unique({ properties: ['script', 'grading'] })
@@ -9,7 +9,7 @@ export class ScriptGrade {
   id!: number;
 
   @ManyToOne()
-  script!: Script;
+  script: Script;
 
   @ManyToOne()
   grading: Grading;

@@ -1,4 +1,9 @@
-import { PartialType } from '@nestjs/swagger';
-import { CreateScriptGradeDto } from './create-script-grade.dto';
+import { ApiPropertyOptional } from '@nestjs/swagger';
 
-export class UpdateScriptGradeDto extends PartialType(CreateScriptGradeDto) {}
+export class UpdateScriptGradeDto {
+  @ApiPropertyOptional()
+  grade: number;
+
+  @ApiPropertyOptional()
+  comments: string;
+}
