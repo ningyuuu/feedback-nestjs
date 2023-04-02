@@ -1,26 +1,65 @@
+import { EntityRepository } from '@mikro-orm/core';
+import { InjectRepository } from '@mikro-orm/nestjs';
 import { Injectable } from '@nestjs/common';
+import { AssignmentsService } from 'src/assignments/assignments.service';
+import { ProjectsService } from 'src/projects/projects.service';
 import { CreateSnippetDto } from './dto/create-snippet.dto';
 import { UpdateSnippetDto } from './dto/update-snippet.dto';
+import { Snippet } from './entities/snippet.entity';
 
 @Injectable()
 export class SnippetsService {
-  create(createSnippetDto: CreateSnippetDto) {
-    return 'This action adds a new snippet';
+  constructor(
+    @InjectRepository(Snippet) private readonly snippetRepository: EntityRepository<Snippet>,
+    private readonly projectsService: ProjectsService,
+    private readonly assignmentsService: AssignmentsService,
+  ) {}
+  async create(createSnippetDto: CreateSnippetDto) {
+    const project = await this.projectsService.findOne(createSnippetDto.project);
+    if (!project) {
+      throw new Error('Project not found');
+    }
+
+    if (createSnippetDto.assignment) {
+      const assignment = await this.assignmentsService.findOne(createSnippetDto.assignment);
+      if (!assignment) {
+        throw new Error('Assignment not found');
+      }
+    }
+
+    const snippet = this.snippetRepository.create(createSnippetDto);
+    await this.snippetRepository.flush();
+    return snippet;
   }
 
   findAll() {
-    return `This action returns all snippets`;
+    return this.snippetRepository.findAll();
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} snippet`;
+    return this.snippetRepository.findOne({ id });
   }
 
-  update(id: number, updateSnippetDto: UpdateSnippetDto) {
-    return `This action updates a #${id} snippet`;
-  }
+  async update(id: number, updateSnippetDto: UpdateSnippetDto) {
+    const snippet = await this.snippetRepository.findOne({ id });
+    if (!snippet) {
+      throw new Error('Snippet not found');
+    }
 
-  remove(id: number) {
-    return `This action removes a #${id} snippet`;
+    if (updateSnippetDto.assignment) {
+      const assignment = await this.assignmentsService.findOne(updateSnippetDto.assignment);
+      if (!assignment) {
+        throw new Error('Assignment not found');
+      }
+      snippet.assignment = assignment;
+    }
+
+    if (updateSnippetDto.text) {
+      snippet.text = updateSnippetDto.text;
+    }
+
+    await this.snippetRepository.persistAndFlush(snippet);
+
+    return snippet;
   }
 }
