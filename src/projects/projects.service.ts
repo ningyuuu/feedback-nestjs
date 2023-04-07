@@ -26,7 +26,7 @@ export class ProjectsService {
     console.log({ scriptIds });
     return this.projectRepo.find(
       { assignments: { scripts: { id: { $in: scriptIds } } } },
-      { populate: ['assignments.scripts'], populateWhere: PopulateHint.INFER },
+      { populate: ['assignments.scripts.student'], populateWhere: PopulateHint.INFER },
     );
   }
 }
