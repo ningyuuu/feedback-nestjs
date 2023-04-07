@@ -16,4 +16,9 @@ export class AppService {
 
     return projects;
   }
+
+  async findProjects(id: number) {
+    const projects = await this.projectsService.findByUserWithAssignments(id);
+    return projects;
+  }
 }

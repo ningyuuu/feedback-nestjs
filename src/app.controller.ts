@@ -15,7 +15,12 @@ export class AppController {
   @UseGuards(AuthGuard('jwt'))
   @Get('outstanding')
   getOutstanding(@Req() req: any) {
-    console.log('userid', req.user.userId);
     return this.appService.findOutstanding(req.user.userId);
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Get('myprojects')
+  getMyProjects(@Req() req: any) {
+    return this.appService.findProjects(req.user.userId);
   }
 }

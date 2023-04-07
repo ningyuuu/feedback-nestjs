@@ -29,4 +29,8 @@ export class ProjectsService {
       { populate: ['assignments.scripts.student'], populateWhere: PopulateHint.INFER },
     );
   }
+
+  findByUserWithAssignments(_userId: number) {
+    return this.projectRepo.find({}, { populate: ['assignments'] });
+  }
 }
