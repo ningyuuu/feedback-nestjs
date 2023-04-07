@@ -26,107 +26,107 @@ const projectData: EntityData<Project>[] = [
 ];
 
 const studentData: EntityData<Student>[] = [
-  { project: projectData[0], name: 'Student 1', email: 'student1@mail.com' },
-  { project: projectData[0], name: 'Student 2', email: 'student2@mail.com' },
-  { project: projectData[0], name: 'Student 3', email: 'student3@mail.com' },
-  { project: projectData[0], name: 'Student 4', email: 'student4@mail.com' },
-  { project: projectData[0], name: 'Student 5', email: 'student5@mail.com' },
+  { project: 1, name: 'Student 1', email: 'student1@mail.com' },
+  { project: 1, name: 'Student 2', email: 'student2@mail.com' },
+  { project: 1, name: 'Student 3', email: 'student3@mail.com' },
+  { project: 1, name: 'Student 4', email: 'student4@mail.com' },
+  { project: 1, name: 'Student 5', email: 'student5@mail.com' },
 ];
 
 const assignmentData: EntityData<Assignment>[] = [
-  { project: projectData[0], name: 'Assignment 1', description: 'Description 1' },
-  { project: projectData[0], name: 'Assignment 2', description: 'Description 2' },
-  { project: projectData[0], name: 'Assignment 3', description: 'Description 3' },
+  { project: 1, name: 'Assignment 1', description: 'Description 1' },
+  { project: 1, name: 'Assignment 2', description: 'Description 2' },
+  { project: 1, name: 'Assignment 3', description: 'Description 3' },
 ];
 
 const gradingData: EntityData<Grading>[] = [
-  { assignment: assignmentData[0], name: 'Question 1', marks: 5 },
-  { assignment: assignmentData[0], name: 'Question 2', marks: 5 },
-  { assignment: assignmentData[0], name: 'Question 3', marks: 5 },
-  { assignment: assignmentData[1], name: 'Question 1', marks: 5 },
-  { assignment: assignmentData[1], name: 'Question 2', marks: 5 },
-  { assignment: assignmentData[1], name: 'Question 3', marks: 5 },
-  { assignment: assignmentData[2], name: 'Question 1', marks: 5 },
-  { assignment: assignmentData[2], name: 'Question 2', marks: 5 },
-  { assignment: assignmentData[2], name: 'Question 3', marks: 5 },
+  { assignment: 1, name: 'Question 1', marks: 5 },
+  { assignment: 1, name: 'Question 2', marks: 5 },
+  { assignment: 1, name: 'Question 3', marks: 5 },
+  { assignment: 2, name: 'Question 1', marks: 5 },
+  { assignment: 2, name: 'Question 2', marks: 5 },
+  { assignment: 2, name: 'Question 3', marks: 5 },
+  { assignment: 3, name: 'Question 1', marks: 5 },
+  { assignment: 3, name: 'Question 2', marks: 5 },
+  { assignment: 3, name: 'Question 3', marks: 5 },
 ];
 
 const scriptData: EntityData<Script>[] = [
   {
-    assignment: assignmentData[0],
-    student: studentData[0],
+    assignment: 1,
+    student: 1,
     file: 's3://test1',
     assignee: 1,
   },
   {
-    assignment: assignmentData[0],
-    student: studentData[1],
+    assignment: 1,
+    student: 2,
     file: 's3://test2',
     assignee: 1,
   },
   {
-    assignment: assignmentData[0],
-    student: studentData[2],
+    assignment: 1,
+    student: 3,
     file: 's3://test3',
     assignee: 1,
   },
   {
-    assignment: assignmentData[0],
-    student: studentData[3],
+    assignment: 1,
+    student: 4,
     file: 's3://test4',
     assignee: 1,
   },
   {
-    assignment: assignmentData[0],
-    student: studentData[4],
+    assignment: 1,
+    student: 5,
     file: 's3://test5',
     assignee: 1,
   },
   {
-    assignment: assignmentData[1],
-    student: studentData[0],
+    assignment: 2,
+    student: 1,
     file: 's3://test6',
     assignee: 1,
   },
   {
-    assignment: assignmentData[1],
-    student: studentData[1],
+    assignment: 2,
+    student: 2,
     file: 's3://test7',
     assignee: 1,
   },
   {
-    assignment: assignmentData[1],
-    student: studentData[2],
+    assignment: 2,
+    student: 3,
     file: 's3://test8',
     assignee: 1,
   },
   {
-    assignment: assignmentData[1],
-    student: studentData[3],
+    assignment: 2,
+    student: 4,
     file: 's3://test9',
     assignee: 1,
   },
   {
-    assignment: assignmentData[1],
-    student: studentData[4],
+    assignment: 2,
+    student: 5,
     file: 's3://test10',
     assignee: 1,
   },
 ];
 
 const scriptGradeData: EntityData<ScriptGrade>[] = [
-  { script: scriptData[0], grading: gradingData[0], grade: 5, comments: 'Good job!' },
-  { script: scriptData[0], grading: gradingData[1], grade: 5, comments: 'Good job!' },
-  { script: scriptData[0], grading: gradingData[2], grade: 5, comments: 'Good job!' },
+  { script: 1, grading: 1, grade: 5, comments: 'Good job!' },
+  { script: 1, grading: 2, grade: 5, comments: 'Good job!' },
+  { script: 1, grading: 3, grade: 5, comments: 'Good job!' },
 ];
 
 const snippetData: EntityData<Snippet>[] = [
-  { project: projectData[0], text: 'Good job!' },
-  { project: projectData[0], text: 'Well done!' },
-  { project: projectData[0], text: 'Keep it up!' },
+  { project: 1, text: 'Good job!' },
+  { project: 1, text: 'Well done!' },
+  { project: 1, text: 'Keep it up!' },
   {
-    project: projectData[0],
-    assignment: assignmentData[0],
+    project: 1,
+    assignment: 1,
     text: 'You did a good job with assignment 1.',
   },
 ];

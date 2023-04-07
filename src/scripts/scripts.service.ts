@@ -53,4 +53,8 @@ export class ScriptsService {
   remove(id: number) {
     return this.scriptRepo.removeAndFlush({ id });
   }
+
+  findOutstanding(userId: number) {
+    return this.scriptRepo.find({ assignee: { id: userId }, scriptGrades: { $exists: false } });
+  }
 }

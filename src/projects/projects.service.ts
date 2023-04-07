@@ -3,6 +3,7 @@ import { EntityRepository } from '@mikro-orm/postgresql';
 import { Injectable } from '@nestjs/common';
 import { CreateProjectDto } from './dto/create-project.dto';
 import { Project } from './entities/project.entity';
+import { PopulateHint } from '@mikro-orm/core';
 
 @Injectable()
 export class ProjectsService {
@@ -19,5 +20,13 @@ export class ProjectsService {
 
   findOne(id: number) {
     return this.projectRepo.findOne({ id });
+  }
+
+  findByScripts(scriptIds: number[]) {
+    console.log({ scriptIds });
+    return this.projectRepo.find(
+      { assignments: { scripts: { id: { $in: scriptIds } } } },
+      { populate: ['assignments.scripts'], populateWhere: PopulateHint.INFER },
+    );
   }
 }
