@@ -2,14 +2,20 @@ import { Controller, Get, Post, Body, Patch, Param } from '@nestjs/common';
 import { ScriptGradesService } from './script-grades.service';
 import { CreateScriptGradeDto } from './dto/create-script-grade.dto';
 import { UpdateScriptGradeDto } from './dto/update-script-grade.dto';
+import { SubmitScriptGradesDto } from './dto/submit-script-grades.dto copy';
 
-@Controller('script.grades')
+@Controller('scriptgrades')
 export class ScriptGradesController {
   constructor(private readonly scriptGradesService: ScriptGradesService) {}
 
   @Post()
   create(@Body() createScriptGradeDto: CreateScriptGradeDto) {
     return this.scriptGradesService.create(createScriptGradeDto);
+  }
+
+  @Post('submit')
+  submit(@Body() createScriptGradeDto: SubmitScriptGradesDto) {
+    return this.scriptGradesService.submit(createScriptGradeDto);
   }
 
   @Get()

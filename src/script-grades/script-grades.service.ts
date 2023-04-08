@@ -6,6 +6,7 @@ import { ScriptsService } from 'src/scripts/scripts.service';
 import { CreateScriptGradeDto } from './dto/create-script-grade.dto';
 import { UpdateScriptGradeDto } from './dto/update-script-grade.dto';
 import { ScriptGrade } from './entities/script-grade.entity';
+import { SubmitScriptGradesDto } from './dto/submit-script-grades.dto copy';
 
 @Injectable()
 export class ScriptGradesService {
@@ -38,6 +39,27 @@ export class ScriptGradesService {
 
   findOne(id: number) {
     return this.scriptGradeRepository.findOne({ id });
+  }
+
+  async submit(submission: SubmitScriptGradesDto) {
+    const script = await this.scriptsService.findOne(submission.scriptId);
+    if (!script) {
+      throw new Error('Script not found');
+    }
+
+    const scriptGrades = submission.gradings.map((scriptGrade) => {
+      const scriptGradeEntity = this.scriptGradeRepository.create({
+        script: script.id,
+        grading: scriptGrade.gradingId,
+        grade: scriptGrade.grade,
+        comments: scriptGrade.comments,
+      });
+      return scriptGradeEntity;
+    });
+
+    await this.scriptGradeRepository.flush();
+
+    return scriptGrades;
   }
 
   async update(id: number, updateScriptGradeDto: UpdateScriptGradeDto) {
