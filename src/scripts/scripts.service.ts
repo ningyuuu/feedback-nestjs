@@ -33,7 +33,7 @@ export class ScriptsService {
   }
 
   findOne(id: number) {
-    return this.scriptRepo.findOne({ id }, { populate: ['student', 'assignment'] });
+    return this.scriptRepo.findOne({ id }, { populate: ['student', 'assignment.gradings'] });
   }
 
   async assign(id: number, assignScriptDto: AssignScriptDto) {
