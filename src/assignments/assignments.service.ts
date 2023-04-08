@@ -29,6 +29,9 @@ export class AssignmentsService {
   }
 
   findOne(id: number) {
-    return this.assignmentRepo.findOne({ id });
+    return this.assignmentRepo.findOne(
+      { id },
+      { populate: ['scripts.scriptGrades', 'scripts.student'] },
+    );
   }
 }

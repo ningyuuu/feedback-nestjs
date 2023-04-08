@@ -6,6 +6,8 @@ import { UsersService } from 'src/users/users.service';
 import { AssignScriptDto } from './dto/assign-script.dto';
 import { CreateScriptDto } from './dto/create-script.dto';
 import { Script } from './entities/script.entity';
+import { S3 } from 'aws-sdk';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class ScriptsService {
@@ -13,6 +15,7 @@ export class ScriptsService {
     @InjectRepository(Script) private readonly scriptRepo: EntityRepository<Script>,
     private readonly assignmentsService: AssignmentsService,
     private readonly usersService: UsersService,
+    private readonly configService: ConfigService,
   ) {}
   async create(createScriptDto: CreateScriptDto) {
     const assignment = await this.assignmentsService.findOne(createScriptDto.assignment);
@@ -30,7 +33,7 @@ export class ScriptsService {
   }
 
   findOne(id: number) {
-    return this.scriptRepo.findOne({ id });
+    return this.scriptRepo.findOne({ id }, { populate: ['student', 'assignment'] });
   }
 
   async assign(id: number, assignScriptDto: AssignScriptDto) {
@@ -56,5 +59,22 @@ export class ScriptsService {
 
   findOutstanding(userId: number) {
     return this.scriptRepo.find({ assignee: { id: userId }, scriptGrades: { $exists: false } });
+  }
+
+  async getFile(_url: string) {
+    const s3 = new S3({
+      accessKeyId: this.configService.get('AWS_ACCESS_KEY_ID'),
+      secretAccessKey: this.configService.get('AWS_SECRET_ACCESS_KEY'),
+      region: this.configService.get('AWS_REGION'),
+    });
+
+    const stream = await s3
+      .getObject({
+        Bucket: this.configService.get('AWS_BUCKET'),
+        Key: 'gorissen2015.pdf',
+      })
+      .createReadStream();
+
+    return stream;
   }
 }
