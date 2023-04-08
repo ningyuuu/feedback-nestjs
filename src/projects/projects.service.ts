@@ -19,7 +19,10 @@ export class ProjectsService {
   }
 
   findOne(id: number) {
-    return this.projectRepo.findOne({ id });
+    return this.projectRepo.findOne(
+      { id },
+      { populate: ['assignments.scripts.student', 'assignments.scripts.scriptGrades'] },
+    );
   }
 
   findByScripts(scriptIds: number[]) {
