@@ -1,4 +1,4 @@
-import { Entity, ManyToOne, PrimaryKey, Property } from '@mikro-orm/core';
+import { Entity, ManyToOne, PrimaryKey, Property, types } from '@mikro-orm/core';
 import { Assignment } from 'src/assignments/entities/assignment.entity';
 import { Project } from 'src/projects/entities/project.entity';
 import { User } from 'src/users/entities/user.entity';
@@ -14,7 +14,7 @@ export class Snippet {
   @ManyToOne({ nullable: true, entity: () => Assignment })
   assignment?: Assignment;
 
-  @Property()
+  @Property({ type: types.text })
   text: string;
 
   @ManyToOne({ nullable: true, entity: () => User })

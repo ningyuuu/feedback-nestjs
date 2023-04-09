@@ -1,4 +1,12 @@
-import { Collection, Entity, ManyToOne, OneToMany, PrimaryKey, Property } from '@mikro-orm/core';
+import {
+  Collection,
+  Entity,
+  ManyToOne,
+  OneToMany,
+  PrimaryKey,
+  Property,
+  types,
+} from '@mikro-orm/core';
 import { Grading } from 'src/gradings/entities/grading.entity';
 import { Project } from 'src/projects/entities/project.entity';
 import { Script } from 'src/scripts/entities/script.entity';
@@ -15,7 +23,7 @@ export class Assignment {
   @Property()
   name!: string;
 
-  @Property()
+  @Property({ type: types.text })
   description: string;
 
   @OneToMany(() => Script, (s) => s.assignment)

@@ -17,6 +17,6 @@ export class ScriptGrade {
   @Property()
   grade: number;
 
-  @Property()
-  comments: string;
+  @Property({ nullable: true })
+  comments?: string;
 }
