@@ -2,7 +2,7 @@ import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class CreateSnippetDto {
   @ApiProperty()
-  project: number;
+  project?: number;
 
   @ApiPropertyOptional()
   assignment?: number;
