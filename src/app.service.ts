@@ -33,4 +33,9 @@ export class AppService {
     const projectsWithSnippets = await this.projectsService.findBySnippets(snippetIds);
     return projectsWithSnippets;
   }
+
+  async findAssignmentVault(userId: number, assignmentId: number) {
+    const snippets = await this.snippetsService.findByUserAndAssignment(userId, assignmentId);
+    return snippets;
+  }
 }

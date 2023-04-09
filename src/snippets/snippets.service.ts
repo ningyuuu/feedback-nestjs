@@ -68,4 +68,25 @@ export class SnippetsService {
 
     return snippet;
   }
+
+  async findByUserAndAssignment(userId: number, assignmentId: number) {
+    const assignment = await this.assignmentsService.findOne(assignmentId);
+    if (!assignment) {
+      throw new Error('Assignment not found');
+    }
+
+    console.log({ assignment }, assignment.id, assignment.project.id);
+
+    const assignmentSnippets = await this.snippetRepository.find({
+      assignment: assignment.id,
+      $or: [{ user: userId }, { user: { $exists: false } }],
+    });
+    const projectSnippets = await this.snippetRepository.find({
+      project: assignment.project.id,
+      $or: [{ user: userId }, { user: { $exists: false } }],
+    });
+    const snippets = [...assignmentSnippets, ...projectSnippets];
+
+    return snippets;
+  }
 }

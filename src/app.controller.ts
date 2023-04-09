@@ -1,4 +1,4 @@
-import { Controller, Get, Req, UseGuards } from '@nestjs/common';
+import { Controller, Get, Param, Req, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { AppService } from './app.service';
 
@@ -28,5 +28,11 @@ export class AppController {
   @Get('myvault')
   getMyVault(@Req() req: any) {
     return this.appService.findVault(req.user.userId);
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Get('myvault/:id')
+  getMyAssignmentVault(@Req() req: any, @Param('id') assignmentId: string) {
+    return this.appService.findAssignmentVault(req.user.userId, +assignmentId);
   }
 }
