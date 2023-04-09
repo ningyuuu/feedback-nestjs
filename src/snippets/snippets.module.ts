@@ -10,5 +10,6 @@ import { ProjectsModule } from 'src/projects/projects.module';
   imports: [MikroOrmModule.forFeature([Snippet]), AssignmentsModule, ProjectsModule],
   controllers: [SnippetsController],
   providers: [SnippetsService],
+  exports: [SnippetsService],
 })
 export class SnippetsModule {}

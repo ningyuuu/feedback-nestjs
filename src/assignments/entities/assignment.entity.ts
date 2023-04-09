@@ -2,6 +2,7 @@ import { Collection, Entity, ManyToOne, OneToMany, PrimaryKey, Property } from '
 import { Grading } from 'src/gradings/entities/grading.entity';
 import { Project } from 'src/projects/entities/project.entity';
 import { Script } from 'src/scripts/entities/script.entity';
+import { Snippet } from 'src/snippets/entities/snippet.entity';
 
 @Entity()
 export class Assignment {
@@ -22,4 +23,7 @@ export class Assignment {
 
   @OneToMany(() => Grading, (g) => g.assignment)
   gradings = new Collection<Grading>(this);
+
+  @OneToMany(() => Snippet, (s) => s.assignment)
+  snippets = new Collection<Snippet>(this);
 }

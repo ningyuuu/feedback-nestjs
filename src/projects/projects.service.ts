@@ -26,10 +26,21 @@ export class ProjectsService {
   }
 
   findByScripts(scriptIds: number[]) {
-    console.log({ scriptIds });
     return this.projectRepo.find(
       { assignments: { scripts: { id: { $in: scriptIds } } } },
       { populate: ['assignments.scripts.student'], populateWhere: PopulateHint.INFER },
+    );
+  }
+
+  findBySnippets(snippetIds: number[]) {
+    return this.projectRepo.find(
+      {
+        $or: [
+          { assignments: { snippets: { id: { $in: snippetIds } } } },
+          { snippets: { id: { $in: snippetIds } } },
+        ],
+      },
+      { populate: ['assignments.snippets', 'snippets'], populateWhere: PopulateHint.INFER },
     );
   }
 

@@ -23,4 +23,10 @@ export class AppController {
   getMyProjects(@Req() req: any) {
     return this.appService.findProjects(req.user.userId);
   }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Get('myvault')
+  getMyVault(@Req() req: any) {
+    return this.appService.findVault(req.user.userId);
+  }
 }

@@ -40,6 +40,12 @@ export class SnippetsService {
     return this.snippetRepository.findOne({ id });
   }
 
+  findByUserId(id: number) {
+    return this.snippetRepository.find({
+      $or: [{ user: id }, { user: { $exists: false } }],
+    });
+  }
+
   async update(id: number, updateSnippetDto: UpdateSnippetDto) {
     const snippet = await this.snippetRepository.findOne({ id });
     if (!snippet) {

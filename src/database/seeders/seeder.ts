@@ -124,11 +124,7 @@ const snippetData: EntityData<Snippet>[] = [
   { project: 1, text: 'Good job!' },
   { project: 1, text: 'Well done!' },
   { project: 1, text: 'Keep it up!' },
-  {
-    project: 1,
-    assignment: 1,
-    text: 'You did a good job with assignment 1.',
-  },
+  { assignment: 1, text: 'You did a good job with assignment 1.' },
 ];
 
 export class DatabaseSeeder extends Seeder {
