@@ -6,7 +6,4 @@ export class CreateProjectDto {
 
   @ApiProperty()
   period: string;
-
-  @ApiProperty()
-  owner: number;
 }

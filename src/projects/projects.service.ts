@@ -1,14 +1,13 @@
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { EntityRepository } from '@mikro-orm/postgresql';
 import { Injectable } from '@nestjs/common';
-import { CreateProjectDto } from './dto/create-project.dto';
 import { Project } from './entities/project.entity';
-import { PopulateHint } from '@mikro-orm/core';
+import { EntityData, PopulateHint } from '@mikro-orm/core';
 
 @Injectable()
 export class ProjectsService {
   constructor(@InjectRepository(Project) private readonly projectRepo: EntityRepository<Project>) {}
-  async create(createProjectDto: CreateProjectDto) {
+  async create(createProjectDto: EntityData<Project>) {
     const project = this.projectRepo.create(createProjectDto);
     await this.projectRepo.flush();
     return project;
@@ -46,5 +45,9 @@ export class ProjectsService {
 
   findByUserWithAssignments(_userId: number) {
     return this.projectRepo.find({}, { populate: ['assignments'] });
+  }
+
+  findByOwner(owner: number) {
+    return this.projectRepo.find({ owner: owner });
   }
 }

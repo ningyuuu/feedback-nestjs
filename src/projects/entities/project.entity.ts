@@ -1,4 +1,4 @@
-import { Collection, Entity, OneToMany, PrimaryKey, Property } from '@mikro-orm/core';
+import { Collection, Entity, ManyToOne, OneToMany, PrimaryKey, Property } from '@mikro-orm/core';
 import { Assignment } from 'src/assignments/entities/assignment.entity';
 import { Snippet } from 'src/snippets/entities/snippet.entity';
 import { User } from 'src/users/entities/user.entity';
@@ -14,7 +14,7 @@ export class Project {
   @Property()
   period: string;
 
-  @Property()
+  @ManyToOne()
   owner: User;
 
   @OneToMany(() => Assignment, (a) => a.project)

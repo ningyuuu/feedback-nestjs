@@ -13,6 +13,7 @@ import { StudentsModule } from './students/students.module';
 import { ScriptsModule } from './scripts/scripts.module';
 import { ScriptGradesModule } from './script-grades/script-grades.module';
 import { SnippetsModule } from './snippets/snippets.module';
+import { AdminModule } from './admin/admin.module';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
@@ -37,6 +38,7 @@ import { SnippetsModule } from './snippets/snippets.module';
     ScriptsModule,
     ScriptGradesModule,
     SnippetsModule,
+    AdminModule,
   ],
   controllers: [AppController],
   providers: [AppService],
