@@ -34,4 +34,15 @@ export class AssignmentsService {
       { populate: ['scripts.scriptGrades', 'scripts.student'] },
     );
   }
+
+  async findByProjectId(project: number) {
+    console.log({ project });
+    const assignments = await this.assignmentRepo.find({ project });
+    return assignments;
+  }
+
+  bulkDelete(ids: number[], ownerId: number) {
+    console.log('bulkDelete', ids, ownerId);
+    return this.assignmentRepo.nativeDelete({ id: { $in: ids }, project: { owner: ownerId } });
+  }
 }

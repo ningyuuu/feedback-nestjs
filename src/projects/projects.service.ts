@@ -48,6 +48,10 @@ export class ProjectsService {
   }
 
   findByOwner(owner: number) {
-    return this.projectRepo.find({ owner: owner });
+    return this.projectRepo.find({ owner });
+  }
+
+  findByIdAndOwner(id: number, owner: number) {
+    return this.projectRepo.findOne({ id, owner }, { populate: ['assignments'] });
   }
 }
