@@ -11,13 +11,13 @@ export class GradingsService {
     @InjectRepository(Grading) private readonly gradingRepo: EntityRepository<Grading>,
     private readonly assignmentsService: AssignmentsService,
   ) {}
-  async create(createGradingDto: CreateGradingDto) {
-    const assignment = this.assignmentsService.findOne(createGradingDto.assignment);
-    if (!assignment) {
+  async create(assignment: number, createGradingDto: CreateGradingDto) {
+    const obj = this.assignmentsService.findOne(assignment);
+    if (!obj) {
       throw new Error('Assignment not found');
     }
 
-    const grading = this.gradingRepo.create(createGradingDto);
+    const grading = this.gradingRepo.create({ assignment, ...createGradingDto });
     await this.gradingRepo.persistAndFlush(grading);
     return grading;
   }
@@ -28,5 +28,16 @@ export class GradingsService {
 
   findOne(id: number) {
     return this.gradingRepo.findOne({ id });
+  }
+
+  bulkDelete(ids: number[], owner: number) {
+    return this.gradingRepo.nativeDelete({ id: { $in: ids }, assignment: { project: { owner } } });
+  }
+
+  update(id: number, updateGradingDto: CreateGradingDto, owner: number) {
+    return this.gradingRepo.nativeUpdate(
+      { id, assignment: { project: { owner } } },
+      updateGradingDto,
+    );
   }
 }

@@ -45,4 +45,11 @@ export class AssignmentsService {
     console.log('bulkDelete', ids, ownerId);
     return this.assignmentRepo.nativeDelete({ id: { $in: ids }, project: { owner: ownerId } });
   }
+
+  findByIdAndOwner(id: number, ownerId: number) {
+    return this.assignmentRepo.findOne(
+      { id, project: { owner: ownerId } },
+      { populate: ['gradings', 'project'] },
+    );
+  }
 }
