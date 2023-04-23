@@ -162,4 +162,47 @@ export class AdminService {
     });
     return student;
   }
+
+  async getAssignmentData(id: number, ownerId: number) {
+    if (!id) {
+      return null;
+    }
+
+    const assignment = await this.assignmentsService.findScriptsByIdAndOwner(id, ownerId);
+    return assignment;
+  }
+
+  async deleteScripts(ids: number[], assignmentId: number, ownerId: number) {
+    if (!ids) {
+      return null;
+    }
+
+    return await this.assignmentsService.bulkDeleteScripts(assignmentId, ids, ownerId);
+  }
+
+  async resetScripts(ids: number[], assignmentId: number, ownerId: number) {
+    if (!ids) {
+      return null;
+    }
+
+    return await this.assignmentsService.bulkResetScripts(assignmentId, ids, ownerId);
+  }
+
+  async assignScripts(
+    dto: { ids: number[]; instructor: number },
+    assignmentId: number,
+    ownerId: number,
+  ) {
+    if (!dto.instructor || !assignmentId) {
+      console.log('dto ??', dto, assignmentId);
+      return null;
+    }
+
+    return await this.assignmentsService.bulkAssignScripts(
+      assignmentId,
+      dto.ids,
+      dto.instructor,
+      ownerId,
+    );
+  }
 }

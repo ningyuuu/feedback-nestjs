@@ -17,7 +17,7 @@ export class Script {
   @PrimaryKey()
   id!: number;
 
-  @ManyToOne()
+  @ManyToOne({ entity: () => Assignment, cascade: [Cascade.ALL] })
   assignment: Assignment;
 
   @ManyToOne({ entity: () => Student, cascade: [Cascade.ALL] })

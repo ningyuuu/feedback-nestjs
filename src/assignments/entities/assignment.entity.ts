@@ -1,4 +1,5 @@
 import {
+  Cascade,
   Collection,
   Entity,
   ManyToOne,
@@ -26,7 +27,7 @@ export class Assignment {
   @Property({ type: types.text })
   description: string;
 
-  @OneToMany(() => Script, (s) => s.assignment)
+  @OneToMany(() => Script, (s) => s.assignment, { cascade: [Cascade.ALL] })
   scripts = new Collection<Script>(this);
 
   @OneToMany(() => Grading, (g) => g.assignment)

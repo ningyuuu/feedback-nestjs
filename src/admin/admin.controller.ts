@@ -149,4 +149,40 @@ export class AdminController {
   ) {
     return this.adminService.deleteStudents(dto.ids, +projectId, +req.user.userId);
   }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Get('data/assignment/:id')
+  getAssignmentData(@Param('id') id: number, @Req() req: any) {
+    return this.adminService.getAssignmentData(id, +req.user.userId);
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Post('scripts/delete')
+  deleteScripts(
+    @Req() req: any,
+    @Body() dto: { ids: number[] },
+    @Query('assignment') assignmentId: number,
+  ) {
+    return this.adminService.deleteScripts(dto.ids, +assignmentId, +req.user.userId);
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Post('scripts/reset')
+  resetScripts(
+    @Req() req: any,
+    @Body() dto: { ids: number[] },
+    @Query('assignment') assignmentId: number,
+  ) {
+    return this.adminService.resetScripts(dto.ids, +assignmentId, +req.user.userId);
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Post('scripts/assign')
+  assignScripts(
+    @Req() req: any,
+    @Body() dto: { ids: number[]; instructor: number },
+    @Query('assignment') assignmentId: number,
+  ) {
+    return this.adminService.assignScripts(dto, +assignmentId, +req.user.userId);
+  }
 }
