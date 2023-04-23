@@ -4,6 +4,7 @@ import { CreateProjectDto } from 'src/projects/dto/create-project.dto';
 import { ProjectsService } from 'src/projects/projects.service';
 import { CreateGradingDto } from 'src/gradings/dto/create-grading.dto';
 import { GradingsService } from 'src/gradings/gradings.service';
+import { StudentsService } from 'src/students/students.service';
 
 @Injectable()
 export class AdminService {
@@ -11,6 +12,7 @@ export class AdminService {
     private projectsService: ProjectsService,
     private assignmentsService: AssignmentsService,
     private gradingsService: GradingsService,
+    private studentsService: StudentsService,
   ) {}
 
   create(createProjectDto: CreateProjectDto, ownerId: number) {
@@ -124,5 +126,40 @@ export class AdminService {
 
     const project = await this.projectsService.addInstructor(projectId, instructorId, ownerId);
     return project;
+  }
+
+  async getStudentsByProjectId(projectId: number, ownerId: number) {
+    if (!projectId) {
+      return null;
+    }
+
+    const project = await this.projectsService.findByIdAndOwner(projectId, ownerId);
+    return project;
+  }
+
+  async deleteStudents(ids: number[], projectId: number, ownerId: number) {
+    if (!ids || !projectId) {
+      return [];
+    }
+
+    const project = await this.projectsService.removeStudents(projectId, ids, ownerId);
+    return project;
+  }
+
+  async addStudent(dto: { name: string; email: string }, projectId: number, ownerId: number) {
+    if (!projectId) {
+      return null;
+    }
+
+    const project = await this.projectsService.findByIdAndOwner(projectId, ownerId);
+    if (!project) {
+      return null;
+    }
+
+    const student = await this.studentsService.create({
+      project: projectId,
+      ...dto,
+    });
+    return student;
   }
 }

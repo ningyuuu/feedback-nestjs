@@ -1,4 +1,4 @@
-import { Entity, ManyToOne, PrimaryKey, Property, Unique } from '@mikro-orm/core';
+import { Cascade, Entity, ManyToOne, PrimaryKey, Property, Unique } from '@mikro-orm/core';
 import { Grading } from 'src/gradings/entities/grading.entity';
 import { Script } from 'src/scripts/entities/script.entity';
 
@@ -8,7 +8,7 @@ export class ScriptGrade {
   @PrimaryKey()
   id!: number;
 
-  @ManyToOne()
+  @ManyToOne({ entity: () => Script, cascade: [Cascade.ALL] })
   script: Script;
 
   @ManyToOne()

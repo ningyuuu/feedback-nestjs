@@ -123,4 +123,30 @@ export class AdminController {
   ) {
     return this.adminService.deleteInstructors(dto.ids, +projectId, +req.user.userId);
   }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Get('students')
+  getStudents(@Query('project') projectId: number, @Req() req: any) {
+    return this.adminService.getStudentsByProjectId(+projectId, +req.user.userId);
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Post('students')
+  addStudent(
+    @Query('project') projectId: number,
+    @Body() dto: { name: string; email: string },
+    @Req() req: any,
+  ) {
+    return this.adminService.addStudent(dto, +projectId, +req.user.userId);
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Post('students/delete')
+  deleteStudents(
+    @Req() req: any,
+    @Body() dto: { ids: number[] },
+    @Query('project') projectId: number,
+  ) {
+    return this.adminService.deleteStudents(dto.ids, +projectId, +req.user.userId);
+  }
 }

@@ -56,7 +56,10 @@ export class ProjectsService {
   }
 
   findByIdAndOwner(id: number, owner: number) {
-    return this.projectRepo.findOne({ id, owner }, { populate: ['assignments', 'instructors'] });
+    return this.projectRepo.findOne(
+      { id, owner },
+      { populate: ['assignments', 'instructors', 'students'] },
+    );
   }
 
   async removeInstructors(id: number, instructorIds: number[], owner: number) {
@@ -89,6 +92,25 @@ export class ProjectsService {
     project.instructors.add(user);
 
     await this.projectRepo.flush();
+    return project;
+  }
+
+  async removeStudents(id: number, studentIds: number[], owner: number) {
+    const project = await this.projectRepo.findOne({ id, owner }, { populate: ['students'] });
+    console.log({ project });
+    if (!project) {
+      return project;
+    }
+
+    for (const student of project.students) {
+      if (studentIds.includes(student.id)) {
+        console.log('found the guy');
+        project.students.remove(student);
+      }
+    }
+
+    await this.projectRepo.flush();
+
     return project;
   }
 }
