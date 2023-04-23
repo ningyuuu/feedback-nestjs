@@ -98,4 +98,31 @@ export class AdminService {
 
     return await this.gradingsService.bulkDelete(ids, ownerId);
   }
+
+  async getInstructorsByProjectId(projectId: number, ownerId: number) {
+    if (!projectId) {
+      return null;
+    }
+
+    const project = await this.projectsService.findByIdAndOwner(projectId, ownerId);
+    return project;
+  }
+
+  async deleteInstructors(ids: number[], projectId: number, ownerId: number) {
+    if (!ids || !projectId) {
+      return [];
+    }
+
+    const project = await this.projectsService.removeInstructors(projectId, ids, ownerId);
+    return project;
+  }
+
+  async addInstructor(instructorId: number, projectId: number, ownerId: number) {
+    if (!projectId || !instructorId) {
+      return null;
+    }
+
+    const project = await this.projectsService.addInstructor(projectId, instructorId, ownerId);
+    return project;
+  }
 }

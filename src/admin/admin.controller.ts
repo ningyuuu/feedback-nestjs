@@ -101,4 +101,26 @@ export class AdminController {
   deleteGradings(@Req() req: any, @Body() dto: { ids: number[] }) {
     return this.adminService.deleteGradings(dto.ids, +req.user.userId);
   }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Get('instructors')
+  getInstructors(@Query('project') projectId: number, @Req() req: any) {
+    return this.adminService.getInstructorsByProjectId(+projectId, +req.user.userId);
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Post('instructors')
+  addInstructor(@Query('project') projectId: number, @Body() dto: { id: number }, @Req() req: any) {
+    return this.adminService.addInstructor(dto.id, +projectId, +req.user.userId);
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Post('instructors/delete')
+  deleteInstructors(
+    @Req() req: any,
+    @Body() dto: { ids: number[] },
+    @Query('project') projectId: number,
+  ) {
+    return this.adminService.deleteInstructors(dto.ids, +projectId, +req.user.userId);
+  }
 }

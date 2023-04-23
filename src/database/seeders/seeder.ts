@@ -22,7 +22,12 @@ const userData: EntityData<User>[] = [
 ];
 
 const projectData: EntityData<Project>[] = [
-  { name: 'CS6460 Education Technology', period: 'Fall 2023', owner: 1 },
+  {
+    name: 'CS6460 Education Technology',
+    period: 'Fall 2023',
+    owner: 1,
+    instructors: [1, 2, 3, 4, 5],
+  },
 ];
 
 const studentData: EntityData<Student>[] = [

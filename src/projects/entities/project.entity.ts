@@ -1,4 +1,12 @@
-import { Collection, Entity, ManyToOne, OneToMany, PrimaryKey, Property } from '@mikro-orm/core';
+import {
+  Collection,
+  Entity,
+  ManyToMany,
+  ManyToOne,
+  OneToMany,
+  PrimaryKey,
+  Property,
+} from '@mikro-orm/core';
 import { Assignment } from 'src/assignments/entities/assignment.entity';
 import { Snippet } from 'src/snippets/entities/snippet.entity';
 import { User } from 'src/users/entities/user.entity';
@@ -16,6 +24,9 @@ export class Project {
 
   @ManyToOne()
   owner: User;
+
+  @ManyToMany({ inversedBy: 'projects' })
+  instructors = new Collection<User>(this);
 
   @OneToMany(() => Assignment, (a) => a.project)
   assignments = new Collection<Assignment>(this);
