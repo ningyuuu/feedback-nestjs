@@ -15,9 +15,11 @@ export class SnippetsService {
     private readonly assignmentsService: AssignmentsService,
   ) {}
   async create(createSnippetDto: CreateSnippetDto) {
-    const project = await this.projectsService.findOne(createSnippetDto.project);
-    if (!project) {
-      throw new Error('Project not found');
+    if (createSnippetDto.project) {
+      const project = await this.projectsService.findOne(createSnippetDto.project);
+      if (!project) {
+        throw new Error('Project not found');
+      }
     }
 
     if (createSnippetDto.assignment) {

@@ -66,9 +66,7 @@ const assignmentData: EntityData<Assignment>[] = [
 ];
 
 const gradingData: EntityData<Grading>[] = [
-  { assignment: 1, name: 'Question 1', marks: 5 },
-  { assignment: 1, name: 'Question 2', marks: 5 },
-  { assignment: 1, name: 'Question 3', marks: 5 },
+  { assignment: 1, name: 'Overall marks', marks: 5 },
   { assignment: 2, name: 'Question 1', marks: 5 },
   { assignment: 2, name: 'Question 2', marks: 5 },
   { assignment: 2, name: 'Question 3', marks: 5 },
@@ -142,8 +140,6 @@ const scriptData: EntityData<Script>[] = [
 
 const scriptGradeData: EntityData<ScriptGrade>[] = [
   { script: 1, grading: 1, grade: 5, comments: 'Good job!' },
-  { script: 1, grading: 2, grade: 5, comments: 'Good job!' },
-  { script: 1, grading: 3, grade: 5, comments: 'Good job!' },
 ];
 
 const snippetData: EntityData<Snippet>[] = [
