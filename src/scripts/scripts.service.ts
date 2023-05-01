@@ -61,7 +61,33 @@ export class ScriptsService {
     return this.scriptRepo.find({ assignee: { id: userId }, scriptGrades: { $exists: false } });
   }
 
-  async getFile(_url: string) {
+  async createScript(assignment: number, student: number, file: Express.Multer.File) {
+    const fileName = '';
+
+    const script = this.scriptRepo.create({
+      assignment,
+      student,
+      file: fileName,
+    });
+
+    await this.scriptRepo.flush();
+
+    await this.uploadFile(script.id + '.pdf', file);
+
+    script.file = script.id + '.pdf';
+
+    await this.scriptRepo.flush();
+
+    return script;
+  }
+
+  async getUrl(id: number) {
+    const script = await this.scriptRepo.findOne({ id });
+    console.log({ script });
+    return script.file;
+  }
+
+  async getFile(Key: string) {
     const s3 = new S3({
       accessKeyId: this.configService.get('AWS_ACCESS_KEY_ID'),
       secretAccessKey: this.configService.get('AWS_SECRET_ACCESS_KEY'),
@@ -71,10 +97,27 @@ export class ScriptsService {
     const stream = await s3
       .getObject({
         Bucket: this.configService.get('AWS_BUCKET'),
-        Key: 'gorissen2015.pdf',
+        Key,
       })
       .createReadStream();
 
     return stream;
+  }
+
+  async uploadFile(Key: string, file: Express.Multer.File) {
+    const s3 = new S3({
+      accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+      region: process.env.AWS_REGION,
+    });
+
+    const uploadParams = {
+      Bucket: process.env.AWS_BUCKET,
+      Key,
+      Body: file.buffer,
+    };
+
+    const data = await s3.upload(uploadParams).promise();
+    return data;
   }
 }

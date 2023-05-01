@@ -8,11 +8,14 @@ import {
   Query,
   BadRequestException,
   Param,
+  UseInterceptors,
+  UploadedFile,
 } from '@nestjs/common';
 import { AdminService } from './admin.service';
 import { AuthGuard } from '@nestjs/passport';
 import { CreateProjectDto } from 'src/projects/dto/create-project.dto';
 import { CreateGradingDto } from 'src/gradings/dto/create-grading.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('admin')
 export class AdminController {
@@ -195,5 +198,17 @@ export class AdminController {
     @Query('assignment') assignmentId: number,
   ) {
     return this.adminService.assignScripts(dto, +assignmentId, +req.user.userId);
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @UseInterceptors(FileInterceptor('file'))
+  @Post('scripts/upload')
+  uploadScript(
+    @UploadedFile() file: Express.Multer.File,
+    @Req() req: any,
+    @Body() dto: { fileName: string; student: string },
+    @Query('assignment') assignmentId: number,
+  ) {
+    return this.adminService.uploadScript(+assignmentId, dto, file, +req.user.userId);
   }
 }

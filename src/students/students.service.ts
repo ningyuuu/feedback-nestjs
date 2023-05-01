@@ -24,10 +24,14 @@ export class StudentsService {
   }
 
   findAll() {
-    this.studentRepo.findAll();
+    return this.studentRepo.findAll();
   }
 
   findOne(id: number) {
-    this.studentRepo.findOne({ id });
+    return this.studentRepo.findOne({ id });
+  }
+
+  findByIdAndProject(id: number, project: number) {
+    return this.studentRepo.findOne({ id, project });
   }
 }

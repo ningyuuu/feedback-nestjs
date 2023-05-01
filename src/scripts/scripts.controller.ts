@@ -25,8 +25,7 @@ export class ScriptsController {
 
   @Get('file/:id')
   async getFile(@Param('id') id: number, @Res() res: Response) {
-    // const url = await this.scriptsService.getUrl(id);
-    const url = `${id}`;
+    const url = await this.scriptsService.getUrl(id);
     const file = await this.scriptsService.getFile(url);
     file.pipe(res);
   }

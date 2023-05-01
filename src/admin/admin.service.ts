@@ -5,6 +5,7 @@ import { ProjectsService } from 'src/projects/projects.service';
 import { CreateGradingDto } from 'src/gradings/dto/create-grading.dto';
 import { GradingsService } from 'src/gradings/gradings.service';
 import { StudentsService } from 'src/students/students.service';
+import { ScriptsService } from 'src/scripts/scripts.service';
 
 @Injectable()
 export class AdminService {
@@ -13,6 +14,7 @@ export class AdminService {
     private assignmentsService: AssignmentsService,
     private gradingsService: GradingsService,
     private studentsService: StudentsService,
+    private scriptsService: ScriptsService,
   ) {}
 
   create(createProjectDto: CreateProjectDto, ownerId: number) {
@@ -214,5 +216,29 @@ export class AdminService {
       dto.instructor,
       ownerId,
     );
+  }
+
+  async uploadScript(
+    assignmentId: number,
+    dto: { student: string },
+    file: Express.Multer.File,
+    ownerId: number,
+  ) {
+    const assignment = await this.assignmentsService.findByIdAndOwner(assignmentId, ownerId);
+    if (!assignment) {
+      return null;
+    }
+
+    const student = await this.studentsService.findByIdAndProject(
+      +dto.student,
+      assignment.project.id,
+    );
+    if (!student) {
+      return null;
+    }
+
+    const script = await this.scriptsService.createScript(assignmentId, +dto.student, file);
+
+    return script;
   }
 }
