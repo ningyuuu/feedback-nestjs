@@ -145,15 +145,15 @@ const scriptGradeData: EntityData<ScriptGrade>[] = [
 const snippetData: EntityData<Snippet>[] = [
   {
     project: 1,
-    text: 'Good job with the assignment. You have done well and met all the expectations of the assignment.',
-  },
-  {
-    project: 1,
-    text: 'Good job with the assignment. You have done the first part well, but the activity is too short. Here are some ways you can improve.',
-  },
-  {
-    project: 1,
-    text: 'Good job with the assignment. You have done the activity well, but the research log is lacking. Here are some ways you can improve.',
+    text: `Good job with the assignment! Here are some ways you can improve:
+-
+
+Next, here are alternative ideas you can explore:
+-
+
+And finally, here’s what you have done well:
+-
+`,
   },
   {
     assignment: 1,
