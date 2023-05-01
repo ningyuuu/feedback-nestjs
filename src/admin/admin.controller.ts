@@ -85,6 +85,12 @@ export class AdminController {
   }
 
   @UseGuards(AuthGuard('jwt'))
+  @Post('gradings/delete')
+  deleteGradings(@Req() req: any, @Body() dto: { ids: number[] }) {
+    return this.adminService.deleteGradings(dto.ids, +req.user.userId);
+  }
+
+  @UseGuards(AuthGuard('jwt'))
   @Post('gradings/:id')
   async editGrading(@Param('id') gid: number, @Req() req: any, @Body() dto: CreateGradingDto) {
     const assignment = await this.adminService.editGrading(gid, dto, +req.user.userId);
@@ -94,12 +100,6 @@ export class AdminController {
     }
 
     return assignment;
-  }
-
-  @UseGuards(AuthGuard('jwt'))
-  @Post('gradings/delete')
-  deleteGradings(@Req() req: any, @Body() dto: { ids: number[] }) {
-    return this.adminService.deleteGradings(dto.ids, +req.user.userId);
   }
 
   @UseGuards(AuthGuard('jwt'))
