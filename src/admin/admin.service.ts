@@ -61,6 +61,16 @@ export class AdminService {
     return await this.assignmentsService.bulkDelete(ids, ownerId);
   }
 
+  async updateAssignments(id: number, dto: { name: string; description: string }, ownerId: number) {
+    if (!id || (!dto.name && !dto.description)) {
+      return null;
+    }
+
+    const assignment = await this.assignmentsService.updateAssignment(id, dto, ownerId);
+
+    return assignment;
+  }
+
   async getGradingsByAssignmentId(assignmentId: number, ownerId: number) {
     if (!assignmentId) {
       return null;

@@ -37,6 +37,22 @@ export class AssignmentsService {
     );
   }
 
+  async updateAssignment(id: number, dto: { name: string; description: string }, owner: number) {
+    const assignment = await this.assignmentRepo.findOne({ id, project: { owner } });
+    if (!assignment) return null;
+
+    if (dto.name) {
+      assignment.name = dto.name;
+    }
+
+    if (dto.description) {
+      assignment.description = dto.description;
+    }
+
+    await this.assignmentRepo.flush();
+    return assignment;
+  }
+
   async findByProjectId(project: number) {
     const assignments = await this.assignmentRepo.find({ project });
     return assignments;

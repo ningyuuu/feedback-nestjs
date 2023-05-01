@@ -63,6 +63,17 @@ export class AdminController {
   }
 
   @UseGuards(AuthGuard('jwt'))
+  @Post('assignments/:id')
+  updateAssignments(
+    @Req() req: any,
+    @Param('id') id: number,
+    @Body() dto: { name: string; description: string },
+  ) {
+    console.log({ dto });
+    return this.adminService.updateAssignments(id, dto, +req.user.userId);
+  }
+
+  @UseGuards(AuthGuard('jwt'))
   @Get('gradings')
   getGradings(@Query('assignment') assignmentId: number, @Req() req: any) {
     return this.adminService.getGradingsByAssignmentId(assignmentId, +req.user.userId);
